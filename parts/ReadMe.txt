@@ -16,4 +16,6 @@ trZ:  translated rotated z
 myTypes:
   Block
   NotchedBar
+  Top2NotchedBar
+
 
