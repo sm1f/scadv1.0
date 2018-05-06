@@ -5,10 +5,10 @@ Includes would get things that are for debugging.
 
 Naming convention
 
-prefixes:
+var starting with caps are vectors usually 3 (x, y, z)
 
+prefixes:
 cZ: added color of sub parts
-aZ: a simple z
 tZ: translated simple z
 rZ: rotated z
 trZ:  translated rotated z
@@ -16,6 +16,5 @@ trZ:  translated rotated z
 myTypes:
   Block
   NotchedBar
-  Top2NotchedBar
 
 

@@ -16,8 +16,19 @@ use <aBlock.scad>
 // oversize notch to remove false thin walls.
 module aTopNotch(c, xS, yS, zS, xNO, xNS, zNS)
 {
-    tBlock(c, xNO, -1, zS - zNS, xNS, yS + 2, zNS + 1);
+    tBlock(c, [xNO, -1, zS - zNS], [xNS, yS + 2, zNS + 1]);
 }
+
+module bTopNotch(c, Size, xNO, xNS, zNS)
+{
+    aTopNotch(c, Size[0], Size[1], Size[2], xNO, xNS, zNS);
+}
+
+module tNotchedBar(c, Offset, Size, xNO, xNS, zNS)
+{
+    
+}
+
 
 module aNotchedBar(c, xS, yS, zS, xNO, xNS, zNS)
 {
@@ -27,34 +38,37 @@ module aNotchedBar(c, xS, yS, zS, xNO, xNS, zNS)
 	aTopNotch(c, xS, yS, zS, xNO, xNS, zNS);
     }
 }
+module bNotchedBar(c, Size, xNO, xNS, zNS)
+{
+   aNotchedBar(c, Size[0], Size[1], Size[2], xNO, xNS, zNS);
+}
 
-module aTop2NotchedBar(c, xS, yS, zS, xNO, xNS, zNS)
+
+module bTop2NotchedBar(c, Size, xNO, xNS, zNS)
 {
     difference()
     {
-	aNotchedBar(c, xS, yS, zS, xNO, xNS, zNS);
-	aTopNotch(c, xS, yS, zS, xS - xNS - xNO, xNS, zNS);
+	bNotchedBar(c, Size, xNO, xNS, zNS);
+	bTopNotch(c, Size, xS - xNS - xNO, xNS, zNS);
     }
 }
 
 
-module tNotchedBar(c, xO, yO, zO, xS, yS, zS,
-                        xNO, xNS, zNS)
+module tNotchedBar(c, Offset, Size, xNO, xNS, zNS)
 {
-    translate([xO,yO,zO])
-	aNotchedBar(c, xS, yS, zS, xNO, xNS, zNS);
+    translate(Offset)
+	bNotchedBar(c, Size, xNO, xNS, zNS);
 }
 
-module tTop2Notchedbar(c, xO, yO, zO,
-            xS, yS, zS, xNO, xNS, zNS)
+module tTop2NotchedBar(c, Offset, Size, xNO, xNS, zNS)
 {
-    translate([xO, yO, zO])
-        aTop2NotchedBar(c, xS, yS, zS, xNO, xNS, zNS);
+    translate(Offset)
+        bTop2NotchedBar(c, Size, xNO, xNS, zNS);
 }
 
-
-
-//aNotchedBar("green", 10,3,2,  2,1,1);
-//tNotchedBar("green", 0,10,0, 5,3,2,  2,1,1);
-//aTop2NotchedBar("green", 10,3,2,  2,1,1);
-tTop2Notchedbar("green", 2,3,4, 10,3,2,  2,1,1);
+module TestNotchBar()
+{
+    Sz = [10, 4, 3];
+    tTop2NotchedBar("yellow", [10, 0, 0], Sz, 3, 2, 2);
+}
+TestNotchBar();
